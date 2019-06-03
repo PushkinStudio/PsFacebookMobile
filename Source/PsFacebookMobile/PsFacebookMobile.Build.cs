@@ -1,5 +1,6 @@
 // Copyright 2015-2019 Mail.Ru Group. All Rights Reserved.
 
+using System;
 using System.IO;
 using UnrealBuildTool;
 using Tools.DotNETCommon;
@@ -54,6 +55,26 @@ public class PsFacebookMobile : ModuleRules
             if (Target.Platform == UnrealTargetPlatform.Android)
             {
                 PublicDependencyModuleNames.AddRange(new string[] { "Launch" });
+
+                string ThirdPartyPath = Path.Combine(ModuleDirectory, "..", "ThirdParty", "Android"); 
+                string XmlFilename = Path.Combine(ThirdPartyPath, "res", "values", "FacebookAppID.xml");
+                string DestDir = Path.GetDirectoryName(XmlFilename);
+                if (!Directory.Exists(DestDir))
+                {
+                    Directory.CreateDirectory(DestDir);
+                }
+
+                try
+                {
+                    File.WriteAllText(XmlFilename, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n\t" + 
+                        "<string name=\"facebook_app_id\">" + FacebookAppId + "</string> " +
+                        "<string name=\"fb_login_protocol_scheme\">fb" + FacebookAppId + "</string>\n" + 
+                        "</resources>\n");
+                }
+                catch (System.UnauthorizedAccessException)
+                {
+                    Console.WriteLine("Unable to create FacebookAppID.xml. Please create this file, or set permissions such that it can be created.");
+                }
 
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_Android.xml"));

@@ -4,19 +4,7 @@
   <init>
     <log text="PsFacebookMobile SDK Android Initialization"/>
 
-    <setBoolFromProperty result="bEnableFacebook" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="bEnableFacebook" default="false"/>
     <setStringFromProperty result="FacebookAppId" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookAppId" default=""/>
-
-    <!-- Check that we have any PsFacebookMobile SDK enabled -->
-    <setBoolIsEqual result="bEmptyFacebookAppId" arg1="$S(FacebookAppId)" arg2=""/>
-    <setBoolNot result="bHasFacebookAppId" source="$B(bEmptyFacebookAppId)"/>
-    <setBoolAnd result="isPsFacebookMobileEnabled" arg1="$B(bHasFacebookAppId)" arg2="$B(bEnableFacebook)"/>
-
-    <if condition="bHasFacebookAppId">
-      <false>
-        <log text="PsFacebookMobile SDK is disabled: please provide FacebookAppId in plugin settings"/>
-      </false>
-    </if>
   </init>
 
   <androidManifestUpdates>
@@ -26,54 +14,42 @@
   </proguardAdditions>
 
   <buildGradleAdditions>
-    <if condition="isPsFacebookMobileEnabled">
-      <true>
-        <insert>
-          repositories {
-            mavenCentral()
-          }
+    <insert>
+      repositories {
+      mavenCentral()
+      }
 
-          dependencies {
-            implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
-          }
-        </insert>
-      </true>
-    </if>
+      dependencies {
+      implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+      }
+    </insert>
   </buildGradleAdditions>
 
+  <resourceCopies>
+    <copyDir src="$S(PluginDir)/../../Source/ThirdParty/Android" dst="$S(BuildDir)" />
+  </resourceCopies>
+
   <gameActivityImportAdditions>
-    <if condition="isPsFacebookMobileEnabled">
-      <true>
-        <insert>
-          import com.facebook.FacebookSdk;
-          import com.facebook.appevents.AppEventsLogger;
-        </insert>
-      </true>
-    </if>
+    <insert>
+      import com.facebook.FacebookSdk;
+      import com.facebook.appevents.AppEventsLogger;
+    </insert>
   </gameActivityImportAdditions>
 
   <gameActivityClassAdditions>
-    <if condition="isPsFacebookMobileEnabled">
-      <true>
-        <insert>
-          <![CDATA[
+    <insert>
+      <![CDATA[
           
           ]]>
-        </insert>
-      </true>
-    </if>
+    </insert>
   </gameActivityClassAdditions>
 
   <gameActivityOnCreateAdditions>
-    <if condition="isPsFacebookMobileEnabled">
-      <true>
-        <insert>
-          <![CDATA[
+    <insert>
+      <![CDATA[
 
           ]]>
-        </insert>
-      </true>
-    </if>
+    </insert>
   </gameActivityOnCreateAdditions>
 
 </root>
