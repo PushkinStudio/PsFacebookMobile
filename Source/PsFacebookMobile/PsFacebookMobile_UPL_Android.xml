@@ -52,10 +52,15 @@
     <insert>
       <![CDATA[
         PsFacebookMobile _facebookMobile;
-        
+
         public void AndroidThunkJava_FacebookLogin(String LoginPermissions)
         {
           _facebookMobile.Login(LoginPermissions);
+        }
+
+        public void AndroidThunkJava_FacebookLogout()
+        {
+          _facebookMobile.Logout();
         }
       ]]>
     </insert>

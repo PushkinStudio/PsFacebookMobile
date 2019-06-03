@@ -55,7 +55,7 @@ public class PsFacebookMobile
 
     public boolean Login(String LoginPermissions)
     {
-        Log.d(LOGTAG, "Login");
+        Log.d(LOGTAG, "Login: " + LoginPermissions);
 
         try
         {
@@ -99,6 +99,23 @@ public class PsFacebookMobile
         catch (Exception e)
         {
             Log.d(LOGTAG, e.toString());
+        }
+
+        return false;
+    }
+
+    public boolean Logout()
+    {
+        Log.d(LOGTAG, "Logout");
+
+        try
+        {
+            LoginManager.getInstance().logOut();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.d(LOGTAG, "Logout Error: " + e.toString());
         }
 
         return false;

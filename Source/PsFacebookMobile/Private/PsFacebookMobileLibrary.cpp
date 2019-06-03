@@ -28,3 +28,14 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions)
 	}
 #endif
 }
+
+void UPsFacebookMobileLibrary::FacebookLogout()
+{
+#if PLATFORM_ANDROID
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookLogout", "()V", false);
+		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
+	}
+#endif
+}

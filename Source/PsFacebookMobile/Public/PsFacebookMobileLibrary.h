@@ -12,7 +12,11 @@ class PSFACEBOOKMOBILE_API UPsFacebookMobileLibrary : public UBlueprintFunctionL
 	GENERATED_UCLASS_BODY()
 
 public:
-	/** */
+	/** Initialize facebook login with permissions provided */
 	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
-	static void FacebookLogin(const FString& LoginPermissions);
+	static void FacebookLogin(const FString& LoginPermissions = "email");
+
+	/** Logout user session if we have one */
+	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
+	static void FacebookLogout();
 };
