@@ -41,10 +41,6 @@ public class PsFacebookMobile
         Log.d(LOGTAG, "Init");
 
         _activity = activity;
-
-        FacebookSdk.sdkInitialize(_activity.getApplicationContext());
-        AppEventsLogger.activateApp(_activity);
-
         _callbackManager = CallbackManager.Factory.create();
     }
 

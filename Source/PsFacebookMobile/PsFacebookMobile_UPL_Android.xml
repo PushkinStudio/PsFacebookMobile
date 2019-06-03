@@ -32,7 +32,7 @@
       }
 
       dependencies {
-      implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+      implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
       }
     </insert>
   </buildGradleAdditions>
@@ -51,7 +51,17 @@
   <gameActivityClassAdditions>
     <insert>
       <![CDATA[
-        PsFacebookMobile _facebookMobile;
+        private PsFacebookMobile _facebookMobile;
+        
+        public PsFacebookMobile GetFacebookMobile()
+        {
+          if(_facebookMobile == null)
+          {
+            _facebookMobile = new PsFacebookMobile(this);
+          }
+          
+          return _facebookMobile;
+        }
 
         public void AndroidThunkJava_FacebookLogin(String LoginPermissions)
         {
@@ -68,16 +78,13 @@
 
   <gameActivityOnCreateAdditions>
     <insert>
-      <![CDATA[
-        _facebookMobile = new PsFacebookMobile(this);
-      ]]>
     </insert>
   </gameActivityOnCreateAdditions>
 
   <gameActivityOnActivityResultAdditions>
     <insert>
       <![CDATA[
-        _facebookMobile.onActivityResult(requestCode, resultCode, data);
+        GetFacebookMobile().onActivityResult(requestCode, resultCode, data);
       ]]>
     </insert>
   </gameActivityOnActivityResultAdditions>
