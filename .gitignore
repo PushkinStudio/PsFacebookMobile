@@ -41,7 +41,6 @@
 *.suo
 *.opensdf
 *.sdf
-*.VC.db
 *.VC.opendb
 
 # Precompiled Assets
@@ -75,3 +74,6 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Generated files
+Source/ThirdParty/Android/res/values/FacebookAppID.xml

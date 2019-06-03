@@ -3,4 +3,3 @@
 #pragma once
 
 #include "PsFacebookMobileLibrary.h"
-#include "PsFacebookMobileProxy.h"

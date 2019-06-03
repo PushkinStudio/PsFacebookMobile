@@ -51,7 +51,12 @@
   <gameActivityClassAdditions>
     <insert>
       <![CDATA[
-        PsFacebookMobile mFacebookMobile;
+        PsFacebookMobile _facebookMobile;
+        
+        public void AndroidThunkJava_FacebookLogin(String LoginPermissions)
+        {
+          _facebookMobile.Login(LoginPermissions);
+        }
       ]]>
     </insert>
   </gameActivityClassAdditions>
@@ -59,7 +64,7 @@
   <gameActivityOnCreateAdditions>
     <insert>
       <![CDATA[
-        mFacebookMobile = new PsFacebookMobile(this);
+        _facebookMobile = new PsFacebookMobile(this);
       ]]>
     </insert>
   </gameActivityOnCreateAdditions>
@@ -67,7 +72,7 @@
   <gameActivityOnActivityResultAdditions>
     <insert>
       <![CDATA[
-        mFacebookMobile.onActivityResult(requestCode, resultCode, data);
+        _facebookMobile.onActivityResult(requestCode, resultCode, data);
       ]]>
     </insert>
   </gameActivityOnActivityResultAdditions>

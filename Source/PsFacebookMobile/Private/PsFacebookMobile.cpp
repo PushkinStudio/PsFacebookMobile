@@ -3,7 +3,6 @@
 #include "PsFacebookMobile.h"
 
 #include "PsFacebookMobileDefines.h"
-#include "PsFacebookMobileProxy.h"
 #include "PsFacebookMobileSettings.h"
 
 #include "Developer/Settings/Public/ISettingsModule.h"
@@ -24,14 +23,6 @@ void FPsFacebookMobileModule::StartupModule()
 			LOCTEXT("RuntimeSettingsDescription", "Configure PsFacebookMobile plugin"),
 			PsFacebookMobileSettings);
 	}
-
-	// Proxy class depends on platform
-	UClass* KitPlatformClass = UPsFacebookMobileProxy::StaticClass();
-
-	// Create crashlytics kit proxy and initalize module by default
-	PsFacebookMobileProxy = NewObject<UPsFacebookMobileProxy>(GetTransientPackage(), KitPlatformClass);
-	PsFacebookMobileProxy->SetFlags(RF_Standalone);
-	PsFacebookMobileProxy->AddToRoot();
 }
 
 void FPsFacebookMobileModule::ShutdownModule()
@@ -45,13 +36,10 @@ void FPsFacebookMobileModule::ShutdownModule()
 	{
 		// If we're in exit purge, this object has already been destroyed
 		PsFacebookMobileSettings->RemoveFromRoot();
-		PsFacebookMobileProxy->RemoveFromRoot();
-		PsFacebookMobileProxy->ClearFlags(RF_Standalone);
 	}
 	else
 	{
 		PsFacebookMobileSettings = nullptr;
-		PsFacebookMobileProxy = nullptr;
 	}
 }
 
@@ -59,12 +47,6 @@ UPsFacebookMobileSettings* FPsFacebookMobileModule::GetSettings() const
 {
 	check(PsFacebookMobileSettings);
 	return PsFacebookMobileSettings;
-}
-
-UPsFacebookMobileProxy* FPsFacebookMobileModule::GetProxy() const
-{
-	check(PsFacebookMobileProxy);
-	return PsFacebookMobileProxy;
 }
 
 #undef LOCTEXT_NAMESPACE

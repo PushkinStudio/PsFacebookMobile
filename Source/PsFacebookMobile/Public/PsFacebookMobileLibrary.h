@@ -12,7 +12,7 @@ class PSFACEBOOKMOBILE_API UPsFacebookMobileLibrary : public UBlueprintFunctionL
 	GENERATED_UCLASS_BODY()
 
 public:
-	/** Global PsFacebookMobileProxy accessor */
-	UFUNCTION(BlueprintPure, Category = PsFacebookMobile, meta = (DisplayName = "Get PsFacebookMobile Proxy"))
-	static UPsFacebookMobileProxy* GetPsFacebookMobileProxy();
+	/** */
+	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
+	static void FacebookLogin(const FString& LoginPermissions);
 };

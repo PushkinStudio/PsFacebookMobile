@@ -6,7 +6,6 @@
 #include "Modules/ModuleManager.h"
 
 class UPsFacebookMobileSettings;
-class UPsFacebookMobileProxy;
 
 class FPsFacebookMobileModule : public IModuleInterface
 {
@@ -39,12 +38,6 @@ public:
 	/** Getter for internal settings object to support runtime configuration changes */
 	UPsFacebookMobileSettings* GetSettings() const;
 
-	/** PsFacebookMobileProxy accessor */
-	UPsFacebookMobileProxy* GetProxy() const;
-
 private:
 	UPsFacebookMobileSettings* PsFacebookMobileSettings;
-
-	/** Internal proxy object */
-	UPsFacebookMobileProxy* PsFacebookMobileProxy;
 };

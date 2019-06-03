@@ -6,33 +6,101 @@ import com.epicgames.ue4.GameActivity;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.text.TextUtils;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.lang.String;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PsFacebookMobile
 {
-	public native void nativeFacebookLoginCompleted(boolean bSuccess, String token);
-	public native void nativeFacebookLogoutCompleted(boolean bSuccess);
+    public native void nativeFacebookLoginCompleted(boolean bSuccess, String token);
+    public native void nativeFacebookLogoutCompleted(boolean bSuccess);
 
-	private GameActivity mActivity;
+    private GameActivity _activity;
+    private CallbackManager _callbackManager;
 
-	public CallbackManager mCallbackManager;
+    private static final String LOGTAG = "UE4-PS-FACEBOOK";
 
-	public PsFacebookMobile(GameActivity activity) 
-	{
-		mActivity = activity;
+    public PsFacebookMobile(GameActivity activity) 
+    {
+        Log.d(LOGTAG, "Init");
 
-		FacebookSdk.sdkInitialize(mActivity.getApplicationContext());
-        AppEventsLogger.activateApp(mActivity);
+        _activity = activity;
 
-        mCallbackManager = CallbackManager.Factory.create();
-	}
+        FacebookSdk.sdkInitialize(_activity.getApplicationContext());
+        AppEventsLogger.activateApp(_activity);
 
-	public boolean onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		return mCallbackManager.onActivityResult(requestCode, resultCode, data);
-	}
+        _callbackManager = CallbackManager.Factory.create();
+    }
+
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        return _callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public boolean Login(String LoginPermissions)
+    {
+        Log.d(LOGTAG, "Login");
+
+        try
+        {
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            if (accessToken == null || accessToken.isExpired())
+            {
+                LoginManager.getInstance().registerCallback(
+                    _callbackManager,
+                    new FacebookCallback<LoginResult>()
+                    {
+                        @Override
+                        public void onSuccess(LoginResult loginResult)
+                        {
+                            Log.d(LOGTAG, "Login Success");
+                        }
+
+                        @Override
+                        public void onCancel()
+                        {
+                            Log.d(LOGTAG, "Login Cancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException e)
+                        {
+                            Log.d(LOGTAG, "Login Error: " + e.toString());
+                        }
+                    }
+                );
+
+                HashSet<String> loginPermissions = new HashSet(Arrays.asList(TextUtils.split(LoginPermissions, ",")));
+                LoginManager.getInstance().logInWithReadPermissions(_activity, loginPermissions);
+            }
+            else
+            {
+                Log.d(LOGTAG, "User is already logged in");
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.d(LOGTAG, e.toString());
+        }
+
+        return false;
+    }
 }
