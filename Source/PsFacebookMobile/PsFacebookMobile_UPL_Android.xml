@@ -39,30 +39,37 @@
 
   <resourceCopies>
     <copyDir src="$S(PluginDir)/../ThirdParty/Android" dst="$S(BuildDir)" />
+    <copyFile src="$S(PluginDir)/Private/Android/PsFacebookMobile.java" dst="$S(BuildDir)/src/com/pushkinstudio/PsFacebookMobile.java" />
   </resourceCopies>
 
   <gameActivityImportAdditions>
     <insert>
-      import com.facebook.FacebookSdk;
-      import com.facebook.appevents.AppEventsLogger;
+      import com.pushkinstudio.PsFacebookMobile.PsFacebookMobile;
     </insert>
   </gameActivityImportAdditions>
 
   <gameActivityClassAdditions>
     <insert>
       <![CDATA[
-          
-          ]]>
+        PsFacebookMobile mFacebookMobile;
+      ]]>
     </insert>
   </gameActivityClassAdditions>
 
   <gameActivityOnCreateAdditions>
     <insert>
       <![CDATA[
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        mFacebookMobile = new PsFacebookMobile(this);
       ]]>
     </insert>
   </gameActivityOnCreateAdditions>
+
+  <gameActivityOnActivityResultAdditions>
+    <insert>
+      <![CDATA[
+        mFacebookMobile.onActivityResult(requestCode, resultCode, data);
+      ]]>
+    </insert>
+  </gameActivityOnActivityResultAdditions>
 
 </root>
