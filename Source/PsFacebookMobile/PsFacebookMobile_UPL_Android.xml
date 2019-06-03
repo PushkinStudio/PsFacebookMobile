@@ -38,7 +38,7 @@
   </buildGradleAdditions>
 
   <resourceCopies>
-    <copyDir src="$S(PluginDir)/../../Source/ThirdParty/Android" dst="$S(BuildDir)" />
+    <copyDir src="$S(PluginDir)/../ThirdParty/Android" dst="$S(BuildDir)" />
   </resourceCopies>
 
   <gameActivityImportAdditions>
