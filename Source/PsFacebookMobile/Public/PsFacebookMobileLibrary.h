@@ -19,4 +19,8 @@ public:
 	/** Logout user session if we have one */
 	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
 	static void FacebookLogout();
+
+	/**  Check if a person is already logged in */
+	UFUNCTION(BlueprintPure, Category = "Pushkin Facebook Mobile")
+	static bool IsLoggedIn();
 };

@@ -116,4 +116,10 @@ public class PsFacebookMobile
 
         return false;
     }
+
+    public boolean IsLoggedIn()
+    {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null && !accessToken.isExpired();
+    }
 }

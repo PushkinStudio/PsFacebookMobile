@@ -10,7 +10,6 @@
 #include <android_native_app_glue.h>
 #endif // PLATFORM_ANDROID
 
-
 UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -38,4 +37,17 @@ void UPsFacebookMobileLibrary::FacebookLogout()
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
 	}
 #endif
+}
+
+bool UPsFacebookMobileLibrary::IsLoggedIn()
+{
+#if PLATFORM_ANDROID
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookIsLoggedIn", "()Z", false);
+		return FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, Method);
+	}
+#endif
+
+	return false;
 }

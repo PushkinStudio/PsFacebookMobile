@@ -59,18 +59,23 @@
           {
             _facebookMobile = new PsFacebookMobile(this);
           }
-          
+
           return _facebookMobile;
         }
 
         public void AndroidThunkJava_FacebookLogin(String LoginPermissions)
         {
-          _facebookMobile.Login(LoginPermissions);
+          GetFacebookMobile().Login(LoginPermissions);
         }
 
         public void AndroidThunkJava_FacebookLogout()
         {
-          _facebookMobile.Logout();
+          GetFacebookMobile().Logout();
+        }
+
+        public boolean AndroidThunkJava_FacebookIsLoggedIn()
+        {
+          return GetFacebookMobile().IsLoggedIn();
         }
       ]]>
     </insert>
