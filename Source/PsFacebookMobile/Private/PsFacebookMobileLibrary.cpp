@@ -13,6 +13,8 @@
 #if PLATFORM_IOS
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+
+#include "IOSView.h"
 #endif
 
 FOnFacebookLoginCompleted UPsFacebookMobileLibrary::LoginCompleted;
@@ -39,7 +41,7 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 	  FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
 	  if (accessToken == nil)
 	  {
-		  NSArray* Permissions = [InitLoginPermissions.GetNSString() componentsSeparatedByString:@","];
+		  NSArray* Permissions = [LoginPermissions.GetNSString() componentsSeparatedByString:@","];
 
 		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
 		  [loginManager logInWithReadPermissions:Permissions
