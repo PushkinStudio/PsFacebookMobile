@@ -123,21 +123,17 @@
               <true>
                 <setBool result="bLSApplicationQueriesSchemesSearchNextElement" value="false"/>
 
-                <setElement result="dLSApplicationQueriesSchemesArray" value="array"/>
+                <setElement result="dLSApplicationQueriesSchemesfbapi" value="string" text="fbapi"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemesfbapi"/>
 
-                <setElement result="dLSApplicationQueriesSchemes_fbapi" value="string" text="fbapi"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbapi"/>
+                <setElement result="dLSApplicationQueriesSchemesfbmessengershareapi" value="string" text="fb-messenger-share-api"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemesfbmessengershareapi"/>
 
-                <setElement result="dLSApplicationQueriesSchemes_fb-messenger-share-api" value="string" text="fb-messenger-share-api"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fb-messenger-share-api"/>
+                <setElement result="dLSApplicationQueriesSchemesfbauth" value="string" text="fbauth2"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemesfbauth"/>
 
-                <setElement result="dLSApplicationQueriesSchemes_fbauth2" value="string" text="fbauth2"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbauth2"/>
-
-                <setElement result="dLSApplicationQueriesSchemes_fbshareextension" value="string" text="fbshareextension"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbshareextension"/>
-
-                <addElement tag="$" name="dLSApplicationQueriesSchemesArray"/>
+                <setElement result="dLSApplicationQueriesSchemesfbshareextension" value="string" text="fbshareextension"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemesfbshareextension"/>
               </true>
             </if>
 
