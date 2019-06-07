@@ -126,16 +126,16 @@
                 <setElement result="dLSApplicationQueriesSchemesArray" value="array"/>
 
                 <setElement result="dLSApplicationQueriesSchemes_fbapi" value="string" text="fbapi"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbapi"/>
 
                 <setElement result="dLSApplicationQueriesSchemes_fb-messenger-share-api" value="string" text="fb-messenger-share-api"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fb-messenger-share-api"/>
 
                 <setElement result="dLSApplicationQueriesSchemes_fbauth2" value="string" text="fbauth2"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbauth2"/>
 
                 <setElement result="dLSApplicationQueriesSchemes_fbshareextension" value="string" text="fbshareextension"/>
-                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbshareextension"/>
 
                 <addElement tag="$dLSApplicationQueriesSchemesDict" name="dLSApplicationQueriesSchemesArray"/>
               </true>
