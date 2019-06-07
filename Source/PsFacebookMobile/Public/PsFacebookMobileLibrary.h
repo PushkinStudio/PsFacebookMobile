@@ -28,4 +28,7 @@ public:
 
 	/** Callback for login completed event */
 	static FOnFacebookLoginCompleted LoginCompleted;
+
+	/** Dispatch login event to main thread */
+	static void DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken);
 };

@@ -3,6 +3,9 @@
 #include "PsFacebookMobileLibrary.h"
 
 #include "PsFacebookMobile.h"
+#include "PsFacebookMobileDefines.h"
+
+#include "Async/Async.h"
 
 #if PLATFORM_ANDROID
 #include "Android/AndroidApplication.h"
@@ -65,14 +68,14 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 										   }
 
 										   UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
-										   UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(true, AccessToken);
+										   DispatchFacebookLoginCompletedEvent(bSuccess, AccessToken);
 										 }];
 	  }
 	  else
 	  {
 		  FString AccessToken([accessToken tokenString]);
 		  UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
-		  UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(true, AccessToken);
+		  DispatchFacebookLoginCompletedEvent(true, AccessToken);
 	  }
 	});
 #else
@@ -114,6 +117,14 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 	return false;
 }
 
+void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
+{
+	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
+		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
+	});
+}
+
 #if PLATFORM_ANDROID
 JNI_METHOD void Java_com_pushkinstudio_PsFacebookMobile_PsFacebookMobile_nativeFacebookLoginCompleted(JNIEnv* jenv, jobject thiz, jboolean bSuccess, jstring token)
 {
@@ -125,9 +136,6 @@ JNI_METHOD void Java_com_pushkinstudio_PsFacebookMobile_PsFacebookMobile_nativeF
 		jenv->ReleaseStringUTFChars(token, charsToken);
 	}
 
-	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
-		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
-		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
-	});
+	UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bSuccess, AccessToken);
 }
 #endif // PLATFORM_ANDROID

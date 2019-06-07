@@ -18,7 +18,7 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
 	FString FacebookAppId;
 
-    /** */
-    UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
-    FString FacebookDisplayName;
+	/** */
+	UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
+	FString FacebookDisplayName;
 };
