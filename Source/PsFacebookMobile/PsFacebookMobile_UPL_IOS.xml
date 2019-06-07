@@ -3,9 +3,90 @@
 <root xmlns:android="http://schemas.ios.com/res/ios">
   <init>
     <log text="PsFacebookMobile SDK IOS Initialization"/>
+
+    <setStringFromProperty result="FacebookAppId" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookAppId" default=""/>
+    <setStringFromProperty result="FacebookDisplayName" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookDisplayName" default=""/>
   </init>
 
   <iosPListUpdates>
+    <loopElements tag="$">
+      <setStringFromTag result="CurrentTag" tag="$"/>
+      <setBoolIsEqual   result="isRootDictionary" arg1="$S(CurrentTag)" arg2="dict"/>
 
+      <!-- Process root dict only -->
+      <if condition="isRootDictionary">
+        <true>
+          <!-- FacebookAppID -->
+          <setElement result="FacebookAppIdKey" value="key" text="FacebookAppID"/>
+          <addElement tag="$" name="FacebookAppIdKey"/>
+          <setElement result="FacebookAppIdValue" value="string" text="$S(FacebookAppId)"/>
+          <addElement tag="$" name="FacebookAppIdValue"/>
+
+          <!-- FacebookDisplayName -->
+          <setElement result="FacebookDisplayNameKey" value="key" text="FacebookDisplayName"/>
+          <addElement tag="$" name="FacebookDisplayNameKey"/>
+          <setElement result="FacebookDisplayNameValue" value="string" text="$S(FacebookDisplayName)"/>
+          <addElement tag="$" name="FacebookDisplayNameValue"/>
+
+          <!-- CFBundleURLTypes -->
+          <setBool result="bCFBundleURLTypesFound" value="false"/>
+          <setBool result="bCFBundleURLTypesSearchNextElement" value="false"/>
+
+          <!-- Check that dict is already exists -->
+          <loopElements tag="$">
+            <setStringFromTagText result="TagIteratorValue" tag="$"/>
+            <setBoolIsEqual result="isCFBundleURLTypes" arg1="$S(TagIteratorValue)" arg2="CFBundleURLTypes"/>
+
+            <if condition="isCFBundleURLTypes">
+              <true>
+                <setBool result="bCFBundleURLTypesFound" value="true"/>
+              </true>
+            </if>
+          </loopElements>
+
+          <!-- Create dict section if now one found -->
+          <if condition="bCFBundleURLTypesFound">
+            <false>
+              <setElement result="dCFBundleURLTypes" value="key" text="CFBundleURLTypes"/>
+              <addElement tag="$" name="dCFBundleURLTypes"/>
+              <setElement result="dCFBundleURLTypesRootArray" value="array"/>
+              <addElement tag="$" name="dCFBundleURLTypesRootArray"/>
+            </false>
+          </if>
+
+          <!-- Ad AppSecret value to dict array -->
+          <loopElements tag="$">
+            <setStringFromTagText result="TagIteratorValue" tag="$"/>
+            <setBoolIsEqual result="isCFBundleURLTypes" arg1="$S(TagIteratorValue)" arg2="CFBundleURLTypes"/>
+
+            <if condition="bCFBundleURLTypesSearchNextElement">
+              <true>
+                <setBool result="bCFBundleURLTypesSearchNextElement" value="false"/>
+
+                <setElement result="dCFBundleURLTypesDict" value="dict"/>
+
+                <setElement result="dCFBundleURLSchemes" value="key" text="CFBundleURLSchemes"/>
+                <addElement tag="$dCFBundleURLTypesDict" name="dCFBundleURLSchemes"/>
+
+                <setElement result="dCFBundleURLSchemesRootArray" value="array"/>
+
+                <setElement result="dCFBundleURLSchemesFacebookAppId" value="string" text="fb$S(FacebookAppId)"/>
+                <addElement tag="$dCFBundleURLSchemesRootArray" name="dCFBundleURLSchemesFacebookAppId"/>
+
+                <addElement tag="$dCFBundleURLTypesDict" name="dCFBundleURLSchemesRootArray"/>
+
+                <addElement tag="$" name="dCFBundleURLTypesDict"/>
+              </true>
+            </if>
+
+            <if condition="isCFBundleURLTypes">
+              <true>
+                <setBool result="bCFBundleURLTypesSearchNextElement" value="true"/>
+              </true>
+            </if>
+          </loopElements>
+        </true>
+      </if>
+    </loopElements>
   </iosPListUpdates>
 </root>
