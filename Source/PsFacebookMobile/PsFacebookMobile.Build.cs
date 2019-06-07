@@ -83,6 +83,28 @@ public class PsFacebookMobile : ModuleRules
             {
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_IOS.xml"));
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
+                        "Bolts",
+                        "../ThirdParty/FacebookSDKs-iOS/Bolts.embeddedframework.zip"
+                    )
+                );
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
+                        "FBSDKCoreKit",
+                        "../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip",
+                        "Resources/FacebookSDKStrings.bundle"
+                    )
+                );
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
+                        "FBSDKLoginKit",
+                        "../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip"
+                    )
+                );
             }
         }
 
