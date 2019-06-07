@@ -29,7 +29,6 @@ import java.util.Arrays;
 public class PsFacebookMobile
 {
     public native void nativeFacebookLoginCompleted(boolean bSuccess, String token);
-    public native void nativeFacebookLogoutCompleted(boolean bSuccess);
 
     private GameActivity _activity;
     private CallbackManager _callbackManager;
@@ -66,18 +65,21 @@ public class PsFacebookMobile
                         public void onSuccess(LoginResult loginResult)
                         {
                             Log.d(LOGTAG, "Login Success");
+                            nativeFacebookLoginCompleted(true, AccessToken.getCurrentAccessToken().getToken());
                         }
 
                         @Override
                         public void onCancel()
                         {
                             Log.d(LOGTAG, "Login Cancel");
+                            nativeFacebookLoginCompleted(false, "");
                         }
 
                         @Override
                         public void onError(FacebookException e)
                         {
                             Log.d(LOGTAG, "Login Error: " + e.toString());
+                            nativeFacebookLoginCompleted(false, "");
                         }
                     }
                 );
@@ -88,6 +90,7 @@ public class PsFacebookMobile
             else
             {
                 Log.d(LOGTAG, "User is already logged in");
+                nativeFacebookLoginCompleted(true, accessToken.getToken());
             }
 
             return true;
@@ -97,6 +100,7 @@ public class PsFacebookMobile
             Log.d(LOGTAG, e.toString());
         }
 
+        nativeFacebookLoginCompleted(false, "");
         return false;
     }
 

@@ -10,14 +10,18 @@
 #include <android_native_app_glue.h>
 #endif // PLATFORM_ANDROID
 
+FOnFacebookLoginCompleted UPsFacebookMobileLibrary::LoginCompleted;
+
 UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 }
 
-void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions)
+void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, const FOnFacebookLoginCompleted& SuccessCallback)
 {
 #if PLATFORM_ANDROID
+	UPsFacebookMobileLibrary::LoginCompleted = SuccessCallback;
+
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		jstring LoginPermissionsJava = Env->NewStringUTF(TCHAR_TO_UTF8(*LoginPermissions));
@@ -25,6 +29,8 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions)
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method, LoginPermissionsJava);
 		Env->DeleteLocalRef(LoginPermissionsJava);
 	}
+#else
+	SuccessCallback.ExecuteIfBound(false, TEXT(""));
 #endif
 }
 
@@ -51,3 +57,21 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 
 	return false;
 }
+
+#if PLATFORM_ANDROID
+JNI_METHOD void Java_com_pushkinstudio_PsFacebookMobile_PsFacebookMobile_nativeFacebookLoginCompleted(JNIEnv* jenv, jobject thiz, jboolean bSuccess, jstring token)
+{
+	FString AccessToken;
+	if (bSuccess)
+	{
+		const char* charsToken = jenv->GetStringUTFChars(token, 0);
+		AccessToken = FString(UTF8_TO_TCHAR(charsToken));
+		jenv->ReleaseStringUTFChars(token, charsToken);
+	}
+
+	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
+		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
+	});
+}
+#endif // PLATFORM_ANDROID

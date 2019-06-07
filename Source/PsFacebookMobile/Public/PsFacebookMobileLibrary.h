@@ -6,6 +6,8 @@
 
 #include "PsFacebookMobileLibrary.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FOnFacebookLoginCompleted, bool, bSuccess, const FString&, AccessToken);
+
 UCLASS()
 class PSFACEBOOKMOBILE_API UPsFacebookMobileLibrary : public UBlueprintFunctionLibrary
 {
@@ -13,8 +15,8 @@ class PSFACEBOOKMOBILE_API UPsFacebookMobileLibrary : public UBlueprintFunctionL
 
 public:
 	/** Initialize facebook login with permissions provided */
-	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
-	static void FacebookLogin(const FString& LoginPermissions = "email");
+	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile", meta = (AutoCreateRefTerm = "SuccessCallback"))
+	static void FacebookLogin(const FString& LoginPermissions, const FOnFacebookLoginCompleted& SuccessCallback);
 
 	/** Logout user session if we have one */
 	UFUNCTION(BlueprintCallable, Category = "Pushkin Facebook Mobile")
@@ -23,4 +25,7 @@ public:
 	/**  Check if a person is already logged in */
 	UFUNCTION(BlueprintPure, Category = "Pushkin Facebook Mobile")
 	static bool IsLoggedIn();
+
+	/** Callback for login completed event */
+	static FOnFacebookLoginCompleted LoginCompleted;
 };
