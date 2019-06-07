@@ -11,10 +11,14 @@ class PSFACEBOOKMOBILE_API UPsFacebookMobileSettings : public UObject
 
 public:
 	/** */
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
 	bool bEnableFacebook;
 
 	/** */
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
 	FString FacebookAppId;
+
+    /** */
+    UPROPERTY(Config, EditAnywhere, Category = "Pushkin Facebook Mobile Settings")
+    FString FacebookDisplayName;
 };
