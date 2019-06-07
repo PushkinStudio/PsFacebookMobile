@@ -10,6 +10,11 @@
 #include <android_native_app_glue.h>
 #endif // PLATFORM_ANDROID
 
+#if PLATFORM_IOS
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#endif
+
 FOnFacebookLoginCompleted UPsFacebookMobileLibrary::LoginCompleted;
 
 UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& ObjectInitializer)
@@ -29,6 +34,8 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method, LoginPermissionsJava);
 		Env->DeleteLocalRef(LoginPermissionsJava);
 	}
+#elif PLATFORM_IOS
+
 #else
 	SuccessCallback.ExecuteIfBound(false, TEXT(""));
 #endif
@@ -42,6 +49,14 @@ void UPsFacebookMobileLibrary::FacebookLogout()
 		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookLogout", "()V", false);
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
 	}
+#elif PLATFORM_IOS
+	dispatch_async(dispatch_get_main_queue(), ^{
+	  if ([FBSDKAccessToken currentAccessToken])
+	  {
+		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
+		  [loginManager logOut];
+	  }
+	});
 #endif
 }
 
@@ -53,6 +68,8 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookIsLoggedIn", "()Z", false);
 		return FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, Method);
 	}
+#elif PLATFORM_IOS
+
 #endif
 
 	return false;
