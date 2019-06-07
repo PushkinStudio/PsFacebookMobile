@@ -8,6 +8,12 @@
 #include "Developer/Settings/Public/ISettingsModule.h"
 #include "UObject/Package.h"
 
+#if PLATFORM_IOS
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
+#include "IOS/IOSAppDelegate.h"
+#endif
+
 #define LOCTEXT_NAMESPACE "FPsFacebookMobileModule"
 
 void FPsFacebookMobileModule::StartupModule()
@@ -23,6 +29,15 @@ void FPsFacebookMobileModule::StartupModule()
 			LOCTEXT("RuntimeSettingsDescription", "Configure PsFacebookMobile plugin"),
 			PsFacebookMobileSettings);
 	}
+
+#if PLATFORM_IOS
+	FIOSCoreDelegates::OnOpenURL.AddLambda([this](UIApplication* application, NSURL* url, NSString* sourceApplication, id annotation) {
+		[[FBSDKApplicationDelegate sharedInstance] application:application
+													   openURL:url
+											 sourceApplication:sourceApplication
+													annotation:annotation];
+	});
+#endif
 }
 
 void FPsFacebookMobileModule::ShutdownModule()
