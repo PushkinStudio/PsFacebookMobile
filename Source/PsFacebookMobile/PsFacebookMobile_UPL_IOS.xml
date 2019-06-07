@@ -137,7 +137,7 @@
                 <setElement result="dLSApplicationQueriesSchemes_fbshareextension" value="string" text="fbshareextension"/>
                 <addElement tag="dLSApplicationQueriesSchemesArray" name="dLSApplicationQueriesSchemes_fbshareextension"/>
 
-                <addElement tag="$dLSApplicationQueriesSchemesDict" name="dLSApplicationQueriesSchemesArray"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemesArray"/>
               </true>
             </if>
 
