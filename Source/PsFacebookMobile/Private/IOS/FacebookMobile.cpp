@@ -3,6 +3,7 @@
 #include "FacebookMobile.h"
 
 #if PLATFORM_IOS
+#include "IOS/IOSAppDelegate.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -22,7 +23,7 @@ static FacebookObserver* FacebookObserverInstance = nil;
 
 	if (FacebookObserverInstance == nil)
 	{
-		FacebookObserverInstance = [[FacebookObserverInstance alloc] init];
+		FacebookObserverInstance = [[FacebookObserver alloc] init];
 		[FacebookObserverInstance registerLifeCycleListener];
 	}
 }
@@ -37,8 +38,8 @@ static FacebookObserver* FacebookObserverInstance = nil;
 
 - (void)didFinishLaunching:(NSNotification*)notification
 {
-	[[FBSDKApplicationDelegate sharedInstance] application:application
-							 didFinishLaunchingWithOptions:launchOptions];
+	[[FBSDKApplicationDelegate sharedInstance] application:[UIApplication sharedApplication]
+							 didFinishLaunchingWithOptions:[IOSAppDelegate GetDelegate].launchOptions];
 }
 
 @end
