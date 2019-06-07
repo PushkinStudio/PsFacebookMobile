@@ -24,9 +24,9 @@ UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& Obj
 
 void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, const FOnFacebookLoginCompleted& SuccessCallback)
 {
-#if PLATFORM_ANDROID
 	UPsFacebookMobileLibrary::LoginCompleted = SuccessCallback;
 
+#if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		jstring LoginPermissionsJava = Env->NewStringUTF(TCHAR_TO_UTF8(*LoginPermissions));
@@ -35,7 +35,44 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 		Env->DeleteLocalRef(LoginPermissionsJava);
 	}
 #elif PLATFORM_IOS
+	dispatch_async(dispatch_get_main_queue(), ^{
+	  FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
+	  if (accessToken == nil)
+	  {
+		  NSArray* Permissions = [InitLoginPermissions.GetNSString() componentsSeparatedByString:@","];
 
+		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
+		  [loginManager logInWithReadPermissions:Permissions
+							  fromViewController:[IOSAppDelegate GetDelegate].IOSController
+										 handler:^(FBSDKLoginManagerLoginResult* result, NSError* error) {
+										   FString AccessToken;
+										   bool bSuccess = false;
+
+										   if (error)
+										   {
+											   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d"), *PS_FUNC_LINE, false, [error code]);
+										   }
+										   else if (result.isCancelled)
+										   {
+											   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, Cancelled"), *PS_FUNC_LINE, false);
+										   }
+										   else
+										   {
+											   AccessToken = FString([result token].tokenString);
+											   bSuccess = true;
+										   }
+
+										   UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
+										   UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(true, AccessToken);
+										 }];
+	  }
+	  else
+	  {
+		  FString AccessToken([accessToken tokenString]);
+		  UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
+		  UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(true, AccessToken);
+	  }
+	});
 #else
 	SuccessCallback.ExecuteIfBound(false, TEXT(""));
 #endif
