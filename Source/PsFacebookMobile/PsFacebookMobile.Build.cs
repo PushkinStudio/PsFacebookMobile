@@ -87,14 +87,14 @@ public class PsFacebookMobile : ModuleRules
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "Bolts",
-                        "../ThirdParty/FacebookSDKs-iOS/Bolts.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/Bolts.embeddedframework.zip"
                     )
                 );
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKCoreKit",
-                        "../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip",
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip",
                         "Resources/FacebookSDKStrings.bundle"
                     )
                 );
@@ -102,7 +102,7 @@ public class PsFacebookMobile : ModuleRules
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKLoginKit",
-                        "../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip"
                     )
                 );
             }
