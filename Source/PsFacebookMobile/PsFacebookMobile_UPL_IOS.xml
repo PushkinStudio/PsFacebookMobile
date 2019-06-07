@@ -29,6 +29,7 @@
           <addElement tag="$" name="FacebookDisplayNameValue"/>
 
           <!-- CFBundleURLTypes -->
+          <!-- ======================================================================================================================== -->
           <setBool result="bCFBundleURLTypesFound" value="false"/>
           <setBool result="bCFBundleURLTypesSearchNextElement" value="false"/>
 
@@ -54,7 +55,7 @@
             </false>
           </if>
 
-          <!-- Ad AppSecret value to dict array -->
+          <!-- Add FacebookAppId value to dict array -->
           <loopElements tag="$">
             <setStringFromTagText result="TagIteratorValue" tag="$"/>
             <setBoolIsEqual result="isCFBundleURLTypes" arg1="$S(TagIteratorValue)" arg2="CFBundleURLTypes"/>
@@ -82,6 +83,67 @@
             <if condition="isCFBundleURLTypes">
               <true>
                 <setBool result="bCFBundleURLTypesSearchNextElement" value="true"/>
+              </true>
+            </if>
+          </loopElements>
+
+          <!-- LSApplicationQueriesSchemes -->
+          <!-- ======================================================================================================================== -->
+          <setBool result="bLSApplicationQueriesSchemesFound" value="false"/>
+          <setBool result="bLSApplicationQueriesSchemesSearchNextElement" value="false"/>
+
+          <!-- Check that dict is already exists -->
+          <loopElements tag="$">
+            <setStringFromTagText result="TagIteratorValue" tag="$"/>
+            <setBoolIsEqual result="isLSApplicationQueriesSchemes" arg1="$S(TagIteratorValue)" arg2="LSApplicationQueriesSchemes"/>
+
+            <if condition="isLSApplicationQueriesSchemes">
+              <true>
+                <setBool result="bLSApplicationQueriesSchemesFound" value="true"/>
+              </true>
+            </if>
+          </loopElements>
+
+          <!-- Create dict section if now one found -->
+          <if condition="bLSApplicationQueriesSchemesFound">
+            <false>
+              <setElement result="dLSApplicationQueriesSchemes" value="key" text="LSApplicationQueriesSchemes"/>
+              <addElement tag="$" name="dLSApplicationQueriesSchemes"/>
+              <setElement result="dLSApplicationQueriesSchemesRootArray" value="array"/>
+              <addElement tag="$" name="dLSApplicationQueriesSchemesRootArray"/>
+            </false>
+          </if>
+
+          <!-- Add value to dict array -->
+          <loopElements tag="$">
+            <setStringFromTagText result="TagIteratorValue" tag="$"/>
+            <setBoolIsEqual result="isLSApplicationQueriesSchemes" arg1="$S(TagIteratorValue)" arg2="LSApplicationQueriesSchemes"/>
+
+            <if condition="bLSApplicationQueriesSchemesSearchNextElement">
+              <true>
+                <setBool result="bLSApplicationQueriesSchemesSearchNextElement" value="false"/>
+
+                <setElement result="dLSApplicationQueriesSchemesArray" value="array"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi" value="string" text="fbapi"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fb-messenger-share-api" value="string" text="fb-messenger-share-api"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbauth2" value="string" text="fbauth2"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbshareextension" value="string" text="fbshareextension"/>
+                <addElement tag="dLSApplicationQueriesSchemesArray" name="dCFBundleURLSchemesFacebookAppId"/>
+
+                <addElement tag="$dLSApplicationQueriesSchemesDict" name="dLSApplicationQueriesSchemesArray"/>
+              </true>
+            </if>
+
+            <if condition="isLSApplicationQueriesSchemes">
+              <true>
+                <setBool result="bLSApplicationQueriesSchemesSearchNextElement" value="true"/>
               </true>
             </if>
           </loopElements>
