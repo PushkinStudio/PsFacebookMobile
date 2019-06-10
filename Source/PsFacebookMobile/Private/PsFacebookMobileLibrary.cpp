@@ -79,6 +79,7 @@ void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess
 	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
 		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
 		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
+		UPsFacebookMobileLibrary::LoginCompletedStatic.ExecuteIfBound(bSuccess, AccessToken);
 	});
 }
 
