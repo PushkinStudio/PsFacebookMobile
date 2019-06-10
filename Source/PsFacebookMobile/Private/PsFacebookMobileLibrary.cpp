@@ -21,6 +21,7 @@
 #endif
 
 FOnFacebookLoginCompleted UPsFacebookMobileLibrary::LoginCompleted;
+FOnFacebookLoginCompletedStatic UPsFacebookMobileLibrary::LoginCompletedStatic;
 
 UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -30,7 +31,59 @@ UPsFacebookMobileLibrary::UPsFacebookMobileLibrary(const FObjectInitializer& Obj
 void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, const FOnFacebookLoginCompleted& SuccessCallback)
 {
 	UPsFacebookMobileLibrary::LoginCompleted = SuccessCallback;
+	FacebookLoginImpl(LoginPermissions);
+}
 
+void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, const FOnFacebookLoginCompletedStatic& SuccessCallback)
+{
+	UPsFacebookMobileLibrary::LoginCompletedStatic = SuccessCallback;
+	FacebookLoginImpl(LoginPermissions);
+}
+
+void UPsFacebookMobileLibrary::FacebookLogout()
+{
+#if PLATFORM_ANDROID
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookLogout", "()V", false);
+		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
+	}
+#elif PLATFORM_IOS
+	dispatch_async(dispatch_get_main_queue(), ^{
+	  if ([FBSDKAccessToken currentAccessToken])
+	  {
+		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
+		  [loginManager logOut];
+	  }
+	});
+#endif
+}
+
+bool UPsFacebookMobileLibrary::IsLoggedIn()
+{
+#if PLATFORM_ANDROID
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookIsLoggedIn", "()Z", false);
+		return FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, Method);
+	}
+#elif PLATFORM_IOS
+
+#endif
+
+	return false;
+}
+
+void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
+{
+	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
+		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
+	});
+}
+
+void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions)
+{
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
@@ -79,50 +132,9 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 	  }
 	});
 #else
-	SuccessCallback.ExecuteIfBound(false, TEXT(""));
+	LoginCompleted.ExecuteIfBound(false, TEXT(""));
+	LoginCompletedStatic.ExecuteIfBound(false, TEXT(""));
 #endif
-}
-
-void UPsFacebookMobileLibrary::FacebookLogout()
-{
-#if PLATFORM_ANDROID
-	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
-	{
-		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookLogout", "()V", false);
-		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
-	}
-#elif PLATFORM_IOS
-	dispatch_async(dispatch_get_main_queue(), ^{
-	  if ([FBSDKAccessToken currentAccessToken])
-	  {
-		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
-		  [loginManager logOut];
-	  }
-	});
-#endif
-}
-
-bool UPsFacebookMobileLibrary::IsLoggedIn()
-{
-#if PLATFORM_ANDROID
-	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
-	{
-		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookIsLoggedIn", "()Z", false);
-		return FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, Method);
-	}
-#elif PLATFORM_IOS
-
-#endif
-
-	return false;
-}
-
-void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
-{
-	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
-		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
-		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
-	});
 }
 
 #if PLATFORM_ANDROID
