@@ -95,11 +95,12 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 		Env->DeleteLocalRef(LoginPermissionsJava);
 	}
 #elif PLATFORM_IOS
+	NSString* PermissionsString = LoginPermissions.GetNSString();
 	dispatch_async(dispatch_get_main_queue(), ^{
 	  FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
 	  if (accessToken == nil)
 	  {
-		  NSArray* Permissions = [LoginPermissions.GetNSString() componentsSeparatedByString:@","];
+		  NSArray* Permissions = [PermissionsString componentsSeparatedByString:@","];
 
 		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
 		  [loginManager logInWithPermissions:Permissions
@@ -110,11 +111,11 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 
 									   if (error)
 									   {
-										   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d"), *PS_FUNC_LINE, false, [error code]);
+										   UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d, ErrorDescription: %s"), *PS_FUNC_LINE, false, [error code], *FString([error description]));
 									   }
 									   else if (result.isCancelled)
 									   {
-										   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, Cancelled"), *PS_FUNC_LINE, false);
+										   UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, Cancelled"), *PS_FUNC_LINE, false);
 									   }
 									   else
 									   {
