@@ -86,6 +86,15 @@ public class PsFacebookMobile : ModuleRules
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_IOS.xml"));
 
+                PublicFrameworks.AddRange(
+                new string[]
+                {
+                    "Accelerate",
+                    "SafariServices",
+                    "WebKit"
+                }
+                );
+
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKCoreKit",
