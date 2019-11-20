@@ -17,6 +17,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
+#include "IOS/IOSAppDelegate.h"
 #include "IOSView.h"
 #endif
 
@@ -77,7 +78,7 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
 {
 	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
-		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+		UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: DispatchFacebookLoginCompletedEvent FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
 		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
 		UPsFacebookMobileLibrary::LoginCompletedStatic.ExecuteIfBound(bSuccess, AccessToken);
 	});
@@ -101,34 +102,34 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 		  NSArray* Permissions = [LoginPermissions.GetNSString() componentsSeparatedByString:@","];
 
 		  FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
-		  [loginManager logInWithReadPermissions:Permissions
-							  fromViewController:[IOSAppDelegate GetDelegate].IOSController
-										 handler:^(FBSDKLoginManagerLoginResult* result, NSError* error) {
-										   FString AccessToken;
-										   bool bSuccess = false;
+		  [loginManager logInWithPermissions:Permissions
+						  fromViewController:[IOSAppDelegate GetDelegate].IOSController
+									 handler:^(FBSDKLoginManagerLoginResult* result, NSError* error) {
+									   FString AccessToken;
+									   bool bSuccess = false;
 
-										   if (error)
-										   {
-											   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d"), *PS_FUNC_LINE, false, [error code]);
-										   }
-										   else if (result.isCancelled)
-										   {
-											   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, Cancelled"), *PS_FUNC_LINE, false);
-										   }
-										   else
-										   {
-											   AccessToken = FString([result token].tokenString);
-											   bSuccess = true;
-										   }
+									   if (error)
+									   {
+										   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d"), *PS_FUNC_LINE, false, [error code]);
+									   }
+									   else if (result.isCancelled)
+									   {
+										   UE_LOG(LogPsFacebookMobile, Verbose, TEXT("%s: FacebookLoginCompleted: %d, Cancelled"), *PS_FUNC_LINE, false);
+									   }
+									   else
+									   {
+										   AccessToken = FString([result token].tokenString);
+										   bSuccess = true;
+									   }
 
-										   UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
-										   DispatchFacebookLoginCompletedEvent(bSuccess, AccessToken);
-										 }];
+									   UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+									   DispatchFacebookLoginCompletedEvent(bSuccess, AccessToken);
+									 }];
 	  }
 	  else
 	  {
 		  FString AccessToken([accessToken tokenString]);
-		  UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
+		  UE_LOG(LogPsFacebookMobile, Warning, TEXT("%s: FacebookLoginCompleted has accessToken: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
 		  DispatchFacebookLoginCompletedEvent(true, AccessToken);
 	  }
 	});

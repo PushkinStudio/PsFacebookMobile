@@ -85,7 +85,7 @@ public class PsFacebookMobile
                 );
 
                 HashSet<String> loginPermissions = new HashSet(Arrays.asList(TextUtils.split(LoginPermissions, ",")));
-                LoginManager.getInstance().logInWithReadPermissions(_activity, loginPermissions);
+                LoginManager.getInstance().logIn(_activity, loginPermissions);
             }
             else
             {
