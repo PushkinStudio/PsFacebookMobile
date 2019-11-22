@@ -28,6 +28,16 @@ static FacebookObserver* FacebookObserverInstance = nil;
 	}
 }
 
++ (FacebookObserver*)sharedInstance
+{
+	if (FacebookObserverInstance == nil)
+	{
+		[FacebookObserver load];
+	}
+
+	return FacebookObserverInstance;
+}
+
 - (void)registerLifeCycleListener
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self

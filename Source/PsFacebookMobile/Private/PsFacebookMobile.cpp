@@ -9,6 +9,7 @@
 #include "UObject/Package.h"
 
 #if PLATFORM_IOS
+#include "FacebookMobile.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #include "IOS/IOSAppDelegate.h"
@@ -31,6 +32,9 @@ void FPsFacebookMobileModule::StartupModule()
 	}
 
 #if PLATFORM_IOS
+	[FacebookObserver load];
+	[[FacebookObserver sharedInstance] didFinishLaunching:nil];
+
 	FIOSCoreDelegates::OnOpenURL.AddLambda([this](UIApplication* application, NSURL* url, NSString* sourceApplication, id annotation) {
 		[[FBSDKApplicationDelegate sharedInstance] application:application
 													   openURL:url
