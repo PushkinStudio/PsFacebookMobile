@@ -82,6 +82,7 @@ public class PsFacebookMobile : ModuleRules
             else if (Target.Platform == UnrealTargetPlatform.IOS)
             {
                 PublicDefinitions.Add("TARGET_TV_OS=0");
+                PublicDefinitions.Add("BUCK=1");
 
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_IOS.xml"));
