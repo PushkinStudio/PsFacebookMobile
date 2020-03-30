@@ -110,6 +110,13 @@ public class PsFacebookMobile : ModuleRules
                         "../../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip"
                     )
                 );
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
+                        "FBAudienceNetwork",
+                        "../../ThirdParty/FacebookSDKs-iOS/FBAudienceNetwork.embeddedframework.zip"
+                    )
+                );
             }
         }
 
