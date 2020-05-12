@@ -87,12 +87,15 @@ public class PsFacebookMobile : ModuleRules
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_IOS.xml"));
 
+                PublicAdditionalLibraries.Add("xml2");
+
                 PublicFrameworks.AddRange(
                 new string[]
                 {
                     "Accelerate",
                     "SafariServices",
-                    "WebKit"
+                    "WebKit",
+                    "VideoToolbox"
                 }
                 );
 
