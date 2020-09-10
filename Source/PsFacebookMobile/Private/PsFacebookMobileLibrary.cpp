@@ -7,13 +7,13 @@
 
 #include "Async/Async.h"
 
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 #include "Android/AndroidApplication.h"
 #include "Android/AndroidJNI.h"
 #include <android_native_app_glue.h>
-#endif // PLATFORM_ANDROID
+#endif // PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 
-#if PLATFORM_IOS
+#if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
@@ -43,13 +43,13 @@ void UPsFacebookMobileLibrary::FacebookLogin(const FString& LoginPermissions, co
 
 void UPsFacebookMobileLibrary::FacebookLogout()
 {
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookLogout", "()V", false);
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method);
 	}
-#elif PLATFORM_IOS
+#elif PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 	dispatch_async(dispatch_get_main_queue(), ^{
 	  if ([FBSDKAccessToken currentAccessToken])
 	  {
@@ -62,13 +62,13 @@ void UPsFacebookMobileLibrary::FacebookLogout()
 
 bool UPsFacebookMobileLibrary::IsLoggedIn()
 {
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		static jmethodID Method = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookIsLoggedIn", "()Z", false);
 		return FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, Method);
 	}
-#elif PLATFORM_IOS
+#elif PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 
 #endif
 
@@ -86,7 +86,7 @@ void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess
 
 void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions)
 {
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		jstring LoginPermissionsJava = Env->NewStringUTF(TCHAR_TO_UTF8(*LoginPermissions));
@@ -94,7 +94,7 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, Method, LoginPermissionsJava);
 		Env->DeleteLocalRef(LoginPermissionsJava);
 	}
-#elif PLATFORM_IOS
+#elif PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 	NSString* PermissionsString = LoginPermissions.GetNSString();
 	dispatch_async(dispatch_get_main_queue(), ^{
 	  FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
@@ -140,7 +140,7 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 #endif
 }
 
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 JNI_METHOD void Java_com_pushkinstudio_PsFacebookMobile_PsFacebookMobile_nativeFacebookLoginCompleted(JNIEnv* jenv, jobject thiz, jboolean bSuccess, jstring token)
 {
 	FString AccessToken;
