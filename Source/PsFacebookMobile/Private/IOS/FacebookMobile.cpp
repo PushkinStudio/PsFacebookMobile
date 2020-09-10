@@ -2,7 +2,7 @@
 
 #include "FacebookMobile.h"
 
-#if PLATFORM_IOS
+#if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #include "IOS/IOSAppDelegate.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -54,4 +54,4 @@ static FacebookObserver* FacebookObserverInstance = nil;
 
 @end
 
-#endif // PLATFORM_IOS
+#endif // PLATFORM_IOS && WITH_PSFACEBOOKMOBILE

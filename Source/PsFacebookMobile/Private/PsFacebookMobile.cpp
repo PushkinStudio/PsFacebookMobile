@@ -8,12 +8,12 @@
 #include "Developer/Settings/Public/ISettingsModule.h"
 #include "UObject/Package.h"
 
-#if PLATFORM_IOS
+#if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #include "FacebookMobile.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #include "IOS/IOSAppDelegate.h"
-#endif
+#endif // PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 
 #define LOCTEXT_NAMESPACE "FPsFacebookMobileModule"
 
@@ -31,7 +31,7 @@ void FPsFacebookMobileModule::StartupModule()
 			PsFacebookMobileSettings);
 	}
 
-#if PLATFORM_IOS
+#if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 	[FacebookObserver load];
 	[[FacebookObserver sharedInstance] didFinishLaunching:nil];
 

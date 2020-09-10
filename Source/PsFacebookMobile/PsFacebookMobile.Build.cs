@@ -50,8 +50,13 @@ public class PsFacebookMobile : ModuleRules
         Ini.GetBool(SettingsSection, "bEnableFacebook", out bEnableFacebook);
         Ini.GetString(SettingsSection, "FacebookAppId", out FacebookAppId);
 
-        if(bEnableFacebook && FacebookAppId != "")
+        if (bEnableFacebook)
         {
+            if (FacebookAppId == "")
+            {
+                Console.WriteLine("FacebookAppId is empty. Please specify FacebookAppId.");
+            }
+
             if (Target.Platform == UnrealTargetPlatform.Android)
             {
                 PublicDependencyModuleNames.AddRange(new string[] { "Launch" });
@@ -103,9 +108,8 @@ public class PsFacebookMobile : ModuleRules
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKCoreKit",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip",
-                        "Resources/FacebookSDKStrings.bundle"
-                    )
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip"
+					)
                 );
 
                 PublicAdditionalFrameworks.Add(
