@@ -2,7 +2,6 @@
 
 #include "PsFacebookMobileLibrary.h"
 
-#include "PsFacebookMobile.h"
 #include "PsFacebookMobileDefines.h"
 
 #include "Async/Async.h"
