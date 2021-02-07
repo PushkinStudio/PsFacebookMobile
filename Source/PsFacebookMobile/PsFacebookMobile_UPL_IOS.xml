@@ -88,7 +88,7 @@
           </loopElements>
 
           <!-- LSApplicationQueriesSchemes -->
-          <!-- ======================================================================================================================== -->
+          <!-- =========================== -->
           <setBool result="bLSApplicationQueriesSchemesFound" value="false"/>
           <setBool result="bLSApplicationQueriesSchemesSearchNextElement" value="false"/>
 
@@ -134,6 +134,36 @@
 
                 <setElement result="dLSApplicationQueriesSchemesfbshareextension" value="string" text="fbshareextension"/>
                 <addElement tag="$" name="dLSApplicationQueriesSchemesfbshareextension"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20130214" value="string" text="fbapi20130214"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20130214"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20130410" value="string" text="fbapi20130410"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20130410"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20130702" value="string" text="fbapi20130702"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20130702"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20131010" value="string" text="fbapi20131010"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20131010"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20131219" value="string" text="fbapi20131219"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20131219"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20140410" value="string" text="fbapi20140410"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20140410"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20140116" value="string" text="fbapi20140116"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20140116"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20150313" value="string" text="fbapi20150313"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20150313"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20150629" value="string" text="fbapi20150629"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20150629"/>
+
+                <setElement result="dLSApplicationQueriesSchemes_fbapi20160328" value="string" text="fbapi20160328"/>
+                <addElement tag="$" name="dLSApplicationQueriesSchemes_fbapi20160328"/>
               </true>
             </if>
 
