@@ -28,13 +28,13 @@
   <buildGradleAdditions>
     <insert>
       repositories {
-      mavenCentral()
-      jcenter()
+        mavenCentral()
+        jcenter()
       }
 
       dependencies {
-      implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-      implementation 'com.facebook.android:facebook-login:[8.1)'
+        implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+        implementation 'com.facebook.android:facebook-login:[8.1)'
       }
     </insert>
   </buildGradleAdditions>
