@@ -13,6 +13,7 @@
 #endif // PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
@@ -72,6 +73,15 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 #endif
 
 	return false;
+}
+
+void UPsFacebookMobileLibrary::SetAdvertiserTrackingEnabled(bool bEnabled)
+{
+#if PLATFORM_IOS
+	UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: bEnabled %d"), *PS_FUNC_LINE, bEnabled);
+	[FBSDKSettings setAdvertiserTrackingEnabled:bEnabled];
+	[FBAdSettings setAdvertiserTrackingEnabled:bEnabled];
+#endif
 }
 
 void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
