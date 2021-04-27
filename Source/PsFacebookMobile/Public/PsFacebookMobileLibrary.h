@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Pushkin Facebook Mobile")
 	static bool IsLoggedIn();
 
+	/** Set AdvertiserTrackingEnabled */
+	static void SetAdvertiserTrackingEnabled(bool bEnabled);
+
 	/** Callback for login completed event */
 	static FOnFacebookLoginCompleted LoginCompleted;
 
