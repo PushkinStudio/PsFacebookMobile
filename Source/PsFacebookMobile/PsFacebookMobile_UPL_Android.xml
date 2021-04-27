@@ -33,8 +33,8 @@
       }
 
       dependencies {
-        implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
-        implementation 'com.facebook.android:facebook-login:[8.1)'
+        implementation 'com.facebook.android:facebook-android-sdk:[9,10)'
+        implementation 'com.facebook.android:facebook-login:[9,10)'
       }
     </insert>
   </buildGradleAdditions>
