@@ -5,6 +5,7 @@ package com.pushkinstudio.PsFacebookMobile;
 import com.epicgames.ue4.GameActivity;
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -15,6 +16,7 @@ import com.facebook.FacebookException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.text.TextUtils;
 
@@ -25,13 +27,16 @@ import java.lang.String;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Currency;
+import java.math.BigDecimal;
 
 public class PsFacebookMobile
 {
     public native void nativeFacebookLoginCompleted(boolean bSuccess, String token);
 
-    private GameActivity _activity;
-    private CallbackManager _callbackManager;
+    private static GameActivity _activity;
+    private static CallbackManager _callbackManager;
+    private static AppEventsLogger _logger;
 
     private static final String LOGTAG = "UE4-PS-FACEBOOK";
 
@@ -41,6 +46,7 @@ public class PsFacebookMobile
 
         _activity = activity;
         _callbackManager = CallbackManager.Factory.create();
+        _logger = AppEventsLogger.newLogger(_activity);
     }
 
     public boolean onActivityResult(int requestCode, int resultCode, Intent data)
@@ -125,5 +131,13 @@ public class PsFacebookMobile
     {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && !accessToken.isExpired();
+    }
+    
+    static public void LogPurchase(float InPrice, String InCurrency, String InSku)
+    {
+       Bundle params = new Bundle();
+       params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, InSku);
+       
+       _logger.logPurchase(new BigDecimal(Float.toString(InPrice)), Currency.getInstance(InCurrency), params);
     }
 }

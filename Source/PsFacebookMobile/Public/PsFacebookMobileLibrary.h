@@ -42,6 +42,9 @@ public:
 	/** Dispatch login event to main thread */
 	static void DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken);
 
+	/**  Logs a purchase event with Facebook explicitly, in the specified amount and with the specified sku and currency */
+	static void LogPurchase(float Price, FString& Currency, FString& Sku);
+
 private:
 	/** Facebook sign-in implementation */
 	static void FacebookLoginImpl(const FString& LoginPermissions);

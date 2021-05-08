@@ -23,6 +23,9 @@
   </androidManifestUpdates>
 
   <proguardAdditions>
+      <insert>
+        -keep public class com.pushkinstudio.PsFacebookMobile.** { *; }
+      </insert>
   </proguardAdditions>
 
   <buildGradleAdditions>

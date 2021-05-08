@@ -2,6 +2,7 @@
 
 #include "PsFacebookMobileLibrary.h"
 
+#include "PsFacebookMobile.h"
 #include "PsFacebookMobileDefines.h"
 
 #include "Async/Async.h"
@@ -91,6 +92,33 @@ void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess
 		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
 		UPsFacebookMobileLibrary::LoginCompletedStatic.ExecuteIfBound(bSuccess, AccessToken);
 	});
+}
+
+void UPsFacebookMobileLibrary::LogPurchase(float Price, FString& Currency, FString& Sku)
+{
+	if (Currency.IsEmpty())
+	{
+		UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: Currency can't be empty"), *PS_FUNC_LINE);
+		return;
+	}
+
+	if (Sku.IsEmpty())
+	{
+		UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: Sku can't be empty"), *PS_FUNC_LINE);
+		return;
+	}
+
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		jstring CurrencyJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Currency));
+		jstring SkuJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Sku));
+		static jmethodID Method = FJavaWrapper::FindMethod(Env, FPsFacebookMobileModule::PsFacebookClassID, "LogPurchase", "(F;Ljava/lang/String;Ljava/lang/String;)V", false);
+		Env->CallStaticVoidMethod(FPsFacebookMobileModule::PsFacebookClassID, Method, Price, CurrencyJava, SkuJava);
+		Env->DeleteLocalRef(CurrencyJava);
+		Env->DeleteLocalRef(SkuJava);
+	}
+#endif
 }
 
 void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions)

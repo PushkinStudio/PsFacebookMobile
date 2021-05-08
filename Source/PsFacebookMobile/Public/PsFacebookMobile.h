@@ -5,6 +5,12 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+#if PLATFORM_ANDROID
+#include "Android/AndroidApplication.h"
+#include "Android/AndroidJNI.h"
+#include <android_native_app_glue.h>
+#endif
+
 class UPsFacebookMobileSettings;
 
 class FPsFacebookMobileModule : public IModuleInterface
@@ -39,5 +45,11 @@ public:
 	UPsFacebookMobileSettings* GetSettings() const;
 
 private:
-	UPsFacebookMobileSettings* PsFacebookMobileSettings;
+	UPsFacebookMobileSettings* PsFacebookMobileSettings = nullptr;
+
+public:
+#if PLATFORM_ANDROID
+	/** Internal class wrapper */
+	static jclass PsFacebookClassID;
+#endif
 };

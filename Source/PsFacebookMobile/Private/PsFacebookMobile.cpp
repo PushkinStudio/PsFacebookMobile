@@ -17,6 +17,10 @@
 
 #define LOCTEXT_NAMESPACE "FPsFacebookMobileModule"
 
+#if PLATFORM_ANDROID
+jclass FPsFacebookMobileModule::PsFacebookClassID;
+#endif
+
 void FPsFacebookMobileModule::StartupModule()
 {
 	PsFacebookMobileSettings = NewObject<UPsFacebookMobileSettings>(GetTransientPackage(), "PsFacebookMobileSettings", RF_Standalone);
@@ -30,6 +34,10 @@ void FPsFacebookMobileModule::StartupModule()
 			LOCTEXT("RuntimeSettingsDescription", "Configure PsFacebookMobile plugin"),
 			PsFacebookMobileSettings);
 	}
+
+#if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
+	PsFacebookClassID = FAndroidApplication::FindJavaClassGlobalRef("com/pushkinstudio/PsFacebookMobile/PsFacebookMobile");
+#endif
 
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 	[FacebookObserver load];
