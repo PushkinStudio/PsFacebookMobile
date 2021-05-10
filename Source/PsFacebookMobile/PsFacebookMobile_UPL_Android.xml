@@ -25,6 +25,11 @@
   <proguardAdditions>
       <insert>
         -keep public class com.pushkinstudio.PsFacebookMobile.** { *; }
+        -dontwarn com.pushkinstudio.PsFacebookMobile.**
+
+        -keepclassmembers class com.pushkinstudio.PsFacebookMobile  {
+          public *;
+        }
       </insert>
   </proguardAdditions>
 

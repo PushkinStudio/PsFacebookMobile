@@ -133,11 +133,19 @@ public class PsFacebookMobile
         return accessToken != null && !accessToken.isExpired();
     }
     
-    static public void LogPurchase(float InPrice, String InCurrency, String InSku)
+    static public boolean LogPurchase(float InPrice, String InCurrency, String InSku)
     {
        Bundle params = new Bundle();
        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, InSku);
-       
-       _logger.logPurchase(new BigDecimal(Float.toString(InPrice)), Currency.getInstance(InCurrency), params);
+
+       try {
+           _logger.logPurchase(new BigDecimal(Float.toString(InPrice)), Currency.getInstance(InCurrency), params);
+           return true;
+       }
+       catch (Exception e) {
+           Log.e(LOGTAG, "LogPurchase (" + InPrice + ") (" + InCurrency + ") (" + InSku + ") Error: " + e.toString());
+       }
+
+       return false;
     }
 }

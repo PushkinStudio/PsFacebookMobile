@@ -94,31 +94,26 @@ void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess
 	});
 }
 
-void UPsFacebookMobileLibrary::LogPurchase(float Price, FString& Currency, FString& Sku)
+bool UPsFacebookMobileLibrary::LogPurchase(float Price, FString& Currency, FString& Sku)
 {
-	if (Currency.IsEmpty())
-	{
-		UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: Currency can't be empty"), *PS_FUNC_LINE);
-		return;
-	}
-
-	if (Sku.IsEmpty())
-	{
-		UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: Sku can't be empty"), *PS_FUNC_LINE);
-		return;
-	}
+	bool bResult = false;
 
 #if PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{
 		jstring CurrencyJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Currency));
 		jstring SkuJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Sku));
-		static jmethodID Method = FJavaWrapper::FindMethod(Env, FPsFacebookMobileModule::PsFacebookClassID, "LogPurchase", "(F;Ljava/lang/String;Ljava/lang/String;)V", false);
-		Env->CallStaticVoidMethod(FPsFacebookMobileModule::PsFacebookClassID, Method, Price, CurrencyJava, SkuJava);
+		static jmethodID Method = FJavaWrapper::FindStaticMethod(Env, FPsFacebookMobileModule::PsFacebookClassID, "LogPurchase", "(FLjava/lang/String;Ljava/lang/String;)Z", false);
+		bResult = Env->CallStaticBooleanMethod(FPsFacebookMobileModule::PsFacebookClassID, Method, Price, CurrencyJava, SkuJava);
 		Env->DeleteLocalRef(CurrencyJava);
 		Env->DeleteLocalRef(SkuJava);
 	}
+#elif PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
+	// We're using events auto-log on iOS, so force to be true
+	bResult = true;
 #endif
+
+	return bResult;
 }
 
 void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions)
