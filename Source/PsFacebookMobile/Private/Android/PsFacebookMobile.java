@@ -49,6 +49,12 @@ public class PsFacebookMobile
         _logger = AppEventsLogger.newLogger(_activity);
     }
 
+    public void Initialize()
+    {
+        Log.d(LOGTAG, "Init Facebook SDK manager");
+        // @TODO Refactor plugin to use only static methods and move constructor here
+    }
+
     public boolean onActivityResult(int requestCode, int resultCode, Intent data)
     {
         return _callbackManager.onActivityResult(requestCode, resultCode, data);

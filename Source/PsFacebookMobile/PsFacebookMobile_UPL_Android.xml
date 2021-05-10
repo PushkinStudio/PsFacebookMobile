@@ -93,6 +93,9 @@
 
   <gameActivityOnCreateAdditions>
     <insert>
+      <![CDATA[
+        GetFacebookMobile().Initialize();
+      ]]>
     </insert>
   </gameActivityOnCreateAdditions>
 
