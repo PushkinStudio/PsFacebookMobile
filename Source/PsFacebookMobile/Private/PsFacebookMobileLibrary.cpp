@@ -143,7 +143,7 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 
 									   if (error)
 									   {
-										   UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d, ErrorDescription: %s"), *PS_FUNC_LINE, false, [error code], *FString([error description]));
+										   UE_LOG(LogPsFacebookMobile, Error, TEXT("%s: FacebookLoginCompleted: %d, ErrorCode: %d, ErrorDescription: %s"), *PS_FUNC_LINE, false, [error code], *FString([error localizedDescription]));
 									   }
 									   else if (result.isCancelled)
 									   {
