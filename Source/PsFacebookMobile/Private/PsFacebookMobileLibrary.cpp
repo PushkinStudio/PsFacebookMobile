@@ -78,10 +78,21 @@ bool UPsFacebookMobileLibrary::IsLoggedIn()
 
 void UPsFacebookMobileLibrary::SetAdvertiserTrackingEnabled(bool bEnabled)
 {
-#if PLATFORM_IOS
 	UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: bEnabled %d"), *PS_FUNC_LINE, bEnabled);
+#if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
+	[FBSDKSettings setAutoLogAppEventsEnabled:bEnabled];
+	[FBSDKSettings setAdvertiserIDCollectionEnabled:bEnabled];
 	[FBSDKSettings setAdvertiserTrackingEnabled:bEnabled];
 	[FBAdSettings setAdvertiserTrackingEnabled:bEnabled];
+#elif PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
+	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+	{
+		static jmethodID FacebookSetAdvertiserTrackingEnabledMethod = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookSetAdvertiserTrackingEnabled", "(Z)V", false);
+		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, FacebookSetAdvertiserTrackingEnabledMethod, bEnabled);
+
+		static jmethodID FacebookSetAutoLogAppEventsEnabledMethod = FJavaWrapper::FindMethod(Env, FJavaWrapper::GameActivityClassID, "AndroidThunkJava_FacebookSetAutoLogAppEventsEnabled", "(Z)V", false);
+		FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, FacebookSetAutoLogAppEventsEnabledMethod, bEnabled);
+	}
 #endif
 }
 

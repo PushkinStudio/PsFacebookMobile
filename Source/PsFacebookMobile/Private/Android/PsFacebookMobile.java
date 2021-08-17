@@ -138,6 +138,16 @@ public class PsFacebookMobile
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && !accessToken.isExpired();
     }
+
+    public void SetAutoLogAppEventsEnabled(boolean bEnabled)
+    {
+        FacebookSdk.setAutoLogAppEventsEnabled(bEnabled);
+    }
+
+    public void SetAdvertiserTrackingEnabled(boolean bEnabled)
+    {
+        FacebookSdk.setAdvertiserIDCollectionEnabled(bEnabled);
+    }
     
     static public boolean LogPurchase(float InPrice, String InCurrency, String InSku)
     {
