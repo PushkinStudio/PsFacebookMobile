@@ -28,6 +28,15 @@
           <setElement result="FacebookDisplayNameValue" value="string" text="$S(FacebookDisplayName)"/>
           <addElement tag="$" name="FacebookDisplayNameValue"/>
 
+          <setElement result="FacebookAutoLogAppEventsEnabledKey" value="key" text="FacebookAutoLogAppEventsEnabled"/>
+          <addElement tag="$" name="FacebookAutoLogAppEventsEnabledKey"/>
+          <setElement result="eFalse" value="false" text=""/>
+          <addElement tag="$" name="eFalse"/>
+
+          <setElement result="FacebookAdvertiserIDCollectionEnabledKey" value="key" text="FacebookAdvertiserIDCollectionEnabled"/>
+          <addElement tag="$" name="FacebookAdvertiserIDCollectionEnabledKey"/>
+          <addElement tag="$" name="eFalse"/>
+
           <!-- CFBundleURLTypes -->
           <!-- ======================================================================================================================== -->
           <setBool result="bCFBundleURLTypesFound" value="false"/>
