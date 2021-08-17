@@ -107,6 +107,20 @@ public class PsFacebookMobile : ModuleRules
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
+                        "FBAEMKit",
+                        "../../ThirdParty/FacebookSDKs-iOS/FBAEMKit.embeddedframework.zip"
+                    )
+                );
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
+                        "FBSDKCoreKit_Basics",
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit_Basics.embeddedframework.zip"
+                    )
+                );
+
+                PublicAdditionalFrameworks.Add(
+                    new Framework(
                         "FBSDKCoreKit",
                         "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip"
 					)
