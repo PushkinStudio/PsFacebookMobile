@@ -66,44 +66,35 @@ public class PsFacebookMobile
 
         try
         {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            if (accessToken == null || accessToken.isExpired())
-            {
-                LoginManager.getInstance().registerCallback(
-                    _callbackManager,
-                    new FacebookCallback<LoginResult>()
+            LoginManager.getInstance().registerCallback(
+                _callbackManager,
+                new FacebookCallback<LoginResult>()
+                {
+                    @Override
+                    public void onSuccess(LoginResult loginResult)
                     {
-                        @Override
-                        public void onSuccess(LoginResult loginResult)
-                        {
-                            Log.d(LOGTAG, "Login Success");
-                            nativeFacebookLoginCompleted(true, AccessToken.getCurrentAccessToken().getToken());
-                        }
-
-                        @Override
-                        public void onCancel()
-                        {
-                            Log.d(LOGTAG, "Login Cancel");
-                            nativeFacebookLoginCompleted(false, "");
-                        }
-
-                        @Override
-                        public void onError(FacebookException e)
-                        {
-                            Log.d(LOGTAG, "Login Error: " + e.toString());
-                            nativeFacebookLoginCompleted(false, "");
-                        }
+                        Log.d(LOGTAG, "Login Success");
+                        nativeFacebookLoginCompleted(true, AccessToken.getCurrentAccessToken().getToken());
                     }
-                );
 
-                HashSet<String> loginPermissions = new HashSet(Arrays.asList(TextUtils.split(LoginPermissions, ",")));
-                LoginManager.getInstance().logIn(_activity, loginPermissions);
-            }
-            else
-            {
-                Log.d(LOGTAG, "User is already logged in");
-                nativeFacebookLoginCompleted(true, accessToken.getToken());
-            }
+                    @Override
+                    public void onCancel()
+                    {
+                        Log.d(LOGTAG, "Login Cancel");
+                        nativeFacebookLoginCompleted(false, "");
+                    }
+
+                    @Override
+                    public void onError(FacebookException e)
+                    {
+                        Log.d(LOGTAG, "Login Error: " + e.toString());
+                        nativeFacebookLoginCompleted(false, "");
+                    }
+                }
+            );
+
+            HashSet<String> loginPermissions = new HashSet(Arrays.asList(TextUtils.split(LoginPermissions, ",")));
+            LoginManager.getInstance().logIn(_activity, loginPermissions);
 
             return true;
         }
