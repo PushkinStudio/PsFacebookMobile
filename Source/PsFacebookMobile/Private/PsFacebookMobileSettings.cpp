@@ -4,5 +4,6 @@
 
 UPsFacebookMobileSettings::UPsFacebookMobileSettings(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
+	, bEnableFacebook(true)
 {
 }
