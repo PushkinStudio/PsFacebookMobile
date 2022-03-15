@@ -43,8 +43,8 @@
       }
 
       dependencies {
-        implementation 'com.facebook.android:facebook-android-sdk:11.2.0'
-        implementation 'com.facebook.android:facebook-login:11.2.0'
+        implementation 'com.facebook.android:facebook-android-sdk:13.0.0'
+        implementation 'com.facebook.android:facebook-login:13.0.0'
       }
     </insert>
   </buildGradleAdditions>

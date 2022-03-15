@@ -80,10 +80,9 @@ void UPsFacebookMobileLibrary::SetAdvertiserTrackingEnabled(bool bEnabled)
 {
 	UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: bEnabled %d"), *PS_FUNC_LINE, bEnabled);
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
-	[FBSDKSettings setAutoLogAppEventsEnabled:bEnabled];
-	[FBSDKSettings setAdvertiserIDCollectionEnabled:bEnabled];
-	[FBSDKSettings setAdvertiserTrackingEnabled:bEnabled];
-	[FBAdSettings setAdvertiserTrackingEnabled:bEnabled];
+	FBSDKSettings.sharedSettings.autoLogAppEventsEnabled = bEnabled;
+	FBSDKSettings.sharedSettings.advertiserIDCollectionEnabled = bEnabled;
+	FBSDKSettings.sharedSettings.advertiserTrackingEnabled = bEnabled;
 #elif PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{

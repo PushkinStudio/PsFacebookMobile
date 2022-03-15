@@ -6,6 +6,7 @@
 
     <setStringFromProperty result="FacebookAppId" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookAppId" default=""/>
     <setStringFromProperty result="FacebookDisplayName" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookDisplayName" default=""/>
+    <setStringFromProperty result="FacebookClientToken" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookClientToken" default=""/>
   </init>
 
   <iosPListUpdates>
@@ -27,6 +28,12 @@
           <addElement tag="$" name="FacebookDisplayNameKey"/>
           <setElement result="FacebookDisplayNameValue" value="string" text="$S(FacebookDisplayName)"/>
           <addElement tag="$" name="FacebookDisplayNameValue"/>
+
+          <!-- FacebookClientToken -->
+          <setElement result="FacebookClientTokenKey" value="key" text="FacebookClientToken"/>
+          <addElement tag="$" name="FacebookClientTokenKey"/>
+          <setElement result="FacebookClientTokenValue" value="string" text="$S(FacebookClientToken)"/>
+          <addElement tag="$" name="FacebookClientTokenValue"/>
 
           <setElement result="FacebookAutoLogAppEventsEnabledKey" value="key" text="FacebookAutoLogAppEventsEnabled"/>
           <addElement tag="$" name="FacebookAutoLogAppEventsEnabledKey"/>
