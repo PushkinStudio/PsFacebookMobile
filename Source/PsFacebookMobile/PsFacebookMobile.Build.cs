@@ -89,6 +89,8 @@ public class PsFacebookMobile : ModuleRules
                 PublicDefinitions.Add("TARGET_TV_OS=0");
                 PublicDefinitions.Add("BUCK=1");
                 PublicDefinitions.Add("FBSDK_SWIFT_PACKAGE=0");
+                PublicDefinitions.Add("FBTEST=0");
+                PublicDefinitions.Add("DEBUG=0");
 
                 string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
                 AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "PsFacebookMobile_UPL_IOS.xml"));
