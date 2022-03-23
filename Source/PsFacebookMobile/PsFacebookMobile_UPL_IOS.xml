@@ -7,6 +7,7 @@
     <setStringFromProperty result="FacebookAppId" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookAppId" default=""/>
     <setStringFromProperty result="FacebookDisplayName" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookDisplayName" default=""/>
     <setStringFromProperty result="FacebookClientToken" ini="Engine" section="/Script/PsFacebookMobile.PsFacebookMobileSettings" property="FacebookClientToken" default=""/>
+    <copyDir src="$S(EngineDir)/Intermediate/UnzippedFrameworks/FBAudienceNetwork/FBAudienceNetwork.embeddedframework/FBAudienceNetwork.framework" dst="$S(BuildDir)/Frameworks/FBAudienceNetwork.framework" />
   </init>
 
   <iosPListUpdates>
