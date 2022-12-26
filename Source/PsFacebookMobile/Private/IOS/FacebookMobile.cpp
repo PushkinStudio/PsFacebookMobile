@@ -5,7 +5,11 @@
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #include "IOS/IOSAppDelegate.h"
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+// clang-format off
+#import <SafariServices/SafariServices.h>
+#import <AuthenticationServices/AuthenticationServices.h>
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+// clang-format on
 
 @implementation FacebookObserver
 

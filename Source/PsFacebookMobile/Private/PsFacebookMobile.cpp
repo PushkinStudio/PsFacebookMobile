@@ -10,7 +10,16 @@
 
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #include "FacebookMobile.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
+// clang-format off
+#import <SafariServices/SafariServices.h>
+#import <AuthenticationServices/AuthenticationServices.h>
+// clang-format on
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-property-no-attribute"
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+#pragma clang diagnostic pop
 
 #include "IOS/IOSAppDelegate.h"
 #endif // PLATFORM_IOS && WITH_PSFACEBOOKMOBILE

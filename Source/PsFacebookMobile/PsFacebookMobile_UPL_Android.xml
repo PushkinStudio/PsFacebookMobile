@@ -10,6 +10,7 @@
   <androidManifestUpdates>
     <addElements tag="application">
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+      <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
       <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="false"/>
       <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="false"/>
       <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
@@ -43,8 +44,8 @@
       }
 
       dependencies {
-        implementation 'com.facebook.android:facebook-android-sdk:13.0.0'
-        implementation 'com.facebook.android:facebook-login:13.0.0'
+        implementation 'com.facebook.android:facebook-android-sdk:15.2.0'
+        implementation 'com.facebook.android:facebook-login:15.2.0'
       }
     </insert>
   </buildGradleAdditions>
@@ -67,7 +68,7 @@
         
         public PsFacebookMobile GetFacebookMobile()
         {
-          if(_facebookMobile == null)
+          if (_facebookMobile == null)
           {
             _facebookMobile = new PsFacebookMobile(this);
           }
