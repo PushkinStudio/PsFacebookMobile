@@ -1,4 +1,3 @@
-Checklist:
-- Remove all swift files from projects
-- Switch Scheme to Release
-- Fix property attribute in FBSDKReferralCode in LoginKit
+Notes:
+- Use dynamic version of FBAudienceNetwork
+- If present, strip bitcode from FBAudienceNetwork

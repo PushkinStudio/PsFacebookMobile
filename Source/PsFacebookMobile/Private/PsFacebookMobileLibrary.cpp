@@ -15,8 +15,17 @@
 
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
+// clang-format off
+#import <SafariServices/SafariServices.h>
+#import <AuthenticationServices/AuthenticationServices.h>
+// clang-format on
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-property-no-attribute"
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+#import <FBSDKLoginKit/FBSDKLoginKit-Swift.h>
+#pragma clang diagnostic pop
 
 #include "IOS/IOSAppDelegate.h"
 #include "IOSView.h"
@@ -80,9 +89,9 @@ void UPsFacebookMobileLibrary::SetAdvertiserTrackingEnabled(bool bEnabled)
 {
 	UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: bEnabled %d"), *PS_FUNC_LINE, bEnabled);
 #if PLATFORM_IOS && WITH_PSFACEBOOKMOBILE
-	FBSDKSettings.sharedSettings.autoLogAppEventsEnabled = bEnabled;
-	FBSDKSettings.sharedSettings.advertiserIDCollectionEnabled = bEnabled;
-	FBSDKSettings.sharedSettings.advertiserTrackingEnabled = bEnabled;
+	FBSDKSettings.sharedSettings.isAutoLogAppEventsEnabled = bEnabled;
+	FBSDKSettings.sharedSettings.isAdvertiserIDCollectionEnabled = bEnabled;
+	FBSDKSettings.sharedSettings.isAdvertiserTrackingEnabled = bEnabled;
 #elif PLATFORM_ANDROID && WITH_PSFACEBOOKMOBILE
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
 	{

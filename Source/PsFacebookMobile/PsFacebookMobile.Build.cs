@@ -41,7 +41,8 @@ public class PsFacebookMobile : ModuleRules
 
         // Configure build defines
         bool bEnableFacebook = false;
-        string FacebookAppId = "";
+        string FacebookAppId;
+        string FacebookClientToken;
 
         // Read from config
         ConfigHierarchy Ini = ConfigCache.ReadHierarchy(ConfigHierarchyType.Engine, Target.ProjectFile.Directory, Target.Platform);
@@ -49,6 +50,7 @@ public class PsFacebookMobile : ModuleRules
         string SettingsSection = "/Script/PsFacebookMobile.PsFacebookMobileSettings";
         Ini.GetBool(SettingsSection, "bEnableFacebook", out bEnableFacebook);
         Ini.GetString(SettingsSection, "FacebookAppId", out FacebookAppId);
+        Ini.GetString(SettingsSection, "FacebookClientToken", out FacebookClientToken);
 
         if (bEnableFacebook)
         {
@@ -71,9 +73,10 @@ public class PsFacebookMobile : ModuleRules
 
                 try
                 {
-                    File.WriteAllText(XmlFilename, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n\t" + 
+                    File.WriteAllText(XmlFilename, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n\t" +
                         "<string name=\"facebook_app_id\">" + FacebookAppId + "</string> " +
-                        "<string name=\"fb_login_protocol_scheme\">fb" + FacebookAppId + "</string>\n" + 
+                        "<string name=\"fb_login_protocol_scheme\">fb" + FacebookAppId + "</string>\n" +
+                        "<string name=\"facebook_client_token\">" + FacebookClientToken + "</string>\n" +
                         "</resources>\n");
                 }
                 catch (System.UnauthorizedAccessException)
