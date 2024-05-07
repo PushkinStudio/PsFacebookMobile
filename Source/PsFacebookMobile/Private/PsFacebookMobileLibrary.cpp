@@ -1,4 +1,4 @@
-// Copyright 2015-2023 MY.GAMES. All Rights Reserved.
+// Copyright 2015-2024 MY.GAMES. All Rights Reserved.
 
 #include "PsFacebookMobileLibrary.h"
 
@@ -107,7 +107,7 @@ void UPsFacebookMobileLibrary::SetAdvertiserTrackingEnabled(bool bEnabled)
 void UPsFacebookMobileLibrary::DispatchFacebookLoginCompletedEvent(bool bSuccess, const FString& AccessToken)
 {
 	AsyncTask(ENamedThreads::GameThread, [bSuccess, AccessToken]() {
-		UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: DispatchFacebookLoginCompletedEvent FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+		UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: DispatchFacebookLoginCompletedEvent FacebookLoginCompleted: %d"), *PS_FUNC_LINE, bSuccess);
 		UPsFacebookMobileLibrary::LoginCompleted.ExecuteIfBound(bSuccess, AccessToken);
 		UPsFacebookMobileLibrary::LoginCompletedStatic.ExecuteIfBound(bSuccess, AccessToken);
 	});
@@ -174,14 +174,14 @@ void UPsFacebookMobileLibrary::FacebookLoginImpl(const FString& LoginPermissions
 										   bSuccess = true;
 									   }
 
-									   UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: FacebookLoginCompleted: %d, AccessToken: %s"), *PS_FUNC_LINE, bSuccess, *AccessToken);
+									   UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: FacebookLoginCompleted: %d"), *PS_FUNC_LINE, bSuccess);
 									   DispatchFacebookLoginCompletedEvent(bSuccess, AccessToken);
 									 }];
 	  }
 	  else
 	  {
 		  FString AccessToken([accessToken tokenString]);
-		  UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: FacebookLoginCompleted has accessToken: %d, AccessToken: %s"), *PS_FUNC_LINE, true, *AccessToken);
+		  UE_LOG(LogPsFacebookMobile, Log, TEXT("%s: FacebookLoginCompleted has accessToken: %d"), *PS_FUNC_LINE, true);
 		  DispatchFacebookLoginCompletedEvent(true, AccessToken);
 	  }
 	});

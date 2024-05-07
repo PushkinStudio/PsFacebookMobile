@@ -1,9 +1,8 @@
-// Copyright 2015-2023 MY.GAMES. All Rights Reserved.
+// Copyright 2015-2024 MY.GAMES. All Rights Reserved.
 
 using System;
 using System.IO;
 using UnrealBuildTool;
-using Tools.DotNETCommon;
 
 public class PsFacebookMobile : ModuleRules
 {
@@ -25,7 +24,7 @@ public class PsFacebookMobile : ModuleRules
             {
                 "CoreUObject",
                 "Engine",
-                // ... add private dependencies that you statically link with here ...	
+                // ... add private dependencies that you statically link with here ...
             }
             );
 
@@ -63,7 +62,7 @@ public class PsFacebookMobile : ModuleRules
             {
                 PublicDependencyModuleNames.AddRange(new string[] { "Launch" });
 
-                string ThirdPartyPath = Path.Combine(ModuleDirectory, "..", "ThirdParty", "Android"); 
+                string ThirdPartyPath = Path.Combine(ModuleDirectory, "..", "ThirdParty", "Android");
                 string XmlFilename = Path.Combine(ThirdPartyPath, "res", "values", "FacebookAppID.xml");
                 string DestDir = Path.GetDirectoryName(XmlFilename);
                 if (!Directory.Exists(DestDir))
@@ -113,35 +112,45 @@ public class PsFacebookMobile : ModuleRules
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBAEMKit",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBAEMKit.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBAEMKit.embeddedframework.zip",
+                        null,
+                        true
                     )
                 );
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKCoreKit_Basics",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit_Basics.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit_Basics.embeddedframework.zip",
+                        null,
+                        true
                     )
                 );
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKCoreKit",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKCoreKit.embeddedframework.zip",
+                        null,
+                        true
 					)
                 );
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBSDKLoginKit",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBSDKLoginKit.embeddedframework.zip",
+                        null,
+                        true
                     )
                 );
 
                 PublicAdditionalFrameworks.Add(
                     new Framework(
                         "FBAudienceNetwork",
-                        "../../ThirdParty/FacebookSDKs-iOS/FBAudienceNetwork.embeddedframework.zip"
+                        "../../ThirdParty/FacebookSDKs-iOS/FBAudienceNetwork.embeddedframework.zip",
+                        null,
+                        true
                     )
                 );
             }

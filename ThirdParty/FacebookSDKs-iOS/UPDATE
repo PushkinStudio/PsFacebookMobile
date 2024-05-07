@@ -1,3 +1,3 @@
 Notes:
-- Use dynamic version of FBAudienceNetwork
+- Use dynamic versions of all frameworks: https://github.com/facebook/facebook-ios-sdk/releases
 - If present, strip bitcode from FBAudienceNetwork
