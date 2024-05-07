@@ -1,8 +1,8 @@
-// Copyright 2015-2023 MY.GAMES. All Rights Reserved.
+// Copyright 2015-2024 MY.GAMES. All Rights Reserved.
 
 package com.pushkinstudio.PsFacebookMobile;
 
-import com.epicgames.ue4.GameActivity;
+import com.epicgames.unreal.GameActivity;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsConstants;
