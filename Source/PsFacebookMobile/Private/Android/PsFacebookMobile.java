@@ -38,7 +38,7 @@ public class PsFacebookMobile
     private static CallbackManager _callbackManager;
     private static AppEventsLogger _logger;
 
-    private static final String LOGTAG = "UE4-PS-FACEBOOK";
+    private static final String LOGTAG = "UE-PS-FACEBOOK";
 
     public PsFacebookMobile(GameActivity activity) 
     {
